@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import Spider as sp
 import Data_Manager as dm
-
+import json
 
 # ↓↓↓↓ 定义top n ↓↓↓↓
 topn = 10
@@ -91,9 +91,21 @@ def count_month_time(json_data):
 
     return month_time
 
+
+# 按分类统计
+def count_category(json_data):
+    form = dm.load_data("files/category_list.json")
+    category_count = {'Search': 0, 'Shopping': 0, 'News': 0, 'Entertainment': 0, 'Education': 0, 'Society': 0}
+    for i in json_data:
+        if form.has_key(i['url']):
+            category_count[form[i['url']]] += i['visitCount']
+        else:
+            category_count['Education'] += i['visitCount']
+    return category_count
 # dm.transform_data("files/history.json")
 # sp.spider(calc_topn(dm.load_data("files/cut_history.json")))
 
 # calc_topn(load_datas())
 # count_day_time(dm.load_data("files/cut_history.json"))
 # print count_month_time(dm.load_data("files/cut_history.json"))
+# print count_category(dm.load_data("files/cut_history.json"))
