@@ -17,6 +17,7 @@ def get_data():
 
 if __name__ == '__main__':
     # manager.transform_data("files/history.json")
+    app.debug = True
     my_data = manager.load_data("files/history.json")
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
 
