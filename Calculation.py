@@ -102,10 +102,5 @@ def count_category(json_data):
         else:
             category_count['Education'] += i['visitCount']
     return category_count
-# dm.transform_data("files/history.json")
-# sp.spider(calc_topn(dm.load_data("files/cut_history.json")))
 
-# calc_topn(load_datas())
-# count_day_time(dm.load_data("files/cut_history.json"))
-# print count_month_time(dm.load_data("files/cut_history.json"))
-# print count_category(dm.load_data("files/cut_history.json"))
+

@@ -11,12 +11,22 @@ sys.setdefaultencoding('utf-8')
 
 # 加载json文件
 # json文件一定是utf8无BOM格式否则报错
-def load_data(file_path):#读取数据
+def load_data(file_path):  # 读取数据
     base_path = path.abspath(path.dirname(__file__))
     upload_path = path.join(base_path, file_path)
     f = file(upload_path)
     json_datas = json.load(f)
     return json_datas
+
+
+# 保存json文件
+def save_json_data(json_data, file_path):
+    base_path = path.abspath(path.dirname(__file__))
+    upload_path = path.join(base_path, file_path)
+
+    with open(upload_path, 'w') as out_file:
+        json.dump(json_data, out_file, ensure_ascii=False)
+    pass
 
 
 def cmp_datetime(a, b):
@@ -56,10 +66,10 @@ def transform_data(file_path):
 
     json_datas.sort(cmp=cmp_datetime, key=operator.itemgetter('lastVisitTime'))#按时间排序
 
-    with open("files/full_history.json", 'w') as out_file:
-        json.dump(json_datas, out_file, ensure_ascii=False)
+    save_json_data(json_datas, "files/full_history.json")
 
     cut_url(json_datas)
+    cut_time(json_datas)
     pass
 
 
@@ -72,22 +82,61 @@ def cut_url(json_datas):
         new_url = re.findall(r"http://(.+?)/", data_url)
         if new_url:
             i['url'] = str(new_url[0]).encode("utf8")
-        if not new_url:#为空
+        if not new_url:  # 为空
             new_url = re.findall(r"https://(.+?)/", data_url)
         if new_url:
             i['url'] = str(new_url[0]).encode("utf8")
         if not new_url:
             pass
 
-    with open("files/cut_history.json", 'w') as out_file:
-        json.dump(json_datas, out_file, ensure_ascii=False)
+    save_json_data(json_datas, "files/cut_history.json")
+    pass
+
+
+# 时间轴数据计算
+def cut_time(json_data):
+    axis_json = []
+    is_equal = False
+    data_len = len(json_data)-1
+    for i in range(0, data_len):
+        if not is_equal:
+            temp_data = {'visitCount': 0}
+
+        times = json_data[i]['lastVisitTime'].split('/')
+        now = times[0] + '/' + times[1] + '/' + times[2]
+        temp_data['lastVisitTime'] = now
+        temp_data['visitCount'] += json_data[i]['visitCount']
+        last_time = datetime.datetime.strptime(now, '%Y/%m/%d')
+
+        next_info = json_data[i+1]['lastVisitTime'].split('/')
+        next = next_info[0] + '/' + next_info[1] + '/' + next_info[2]
+        next_time = datetime.datetime.strptime(next, '%Y/%m/%d')
+
+        if next_time != last_time:
+            is_equal = False
+            axis_json.append(temp_data)
+
+            if i == data_len-1:
+                temp_data = {'lastVisitTime': next, 'visitCount': json_data[i + 1]['visitCount']}
+                axis_json.append(temp_data)
+
+        elif next_time == last_time:
+            is_equal = True
+            if i == data_len-1:
+                temp_data['visitCount'] += json_data[i+1]['visitCount']
+                axis_json.append(temp_data)
+
+    # print json.dumps(axis_json, ensure_ascii=False)
+    save_json_data(axis_json, "files/time_cut_history.json")
     pass
 
 
 # 按时间提取数据
-def change_data(start_time, end_time):
-
-    new_data= []
+def change_data(select_data):
+    start_time = select_data['beginTime']
+    end_time = select_data['endTime']
+    # print start_time,end_time
+    new_data = []
     json_datas = load_data("files/cut_history.json")
     start = datetime.datetime.strptime(start_time, '%Y/%m/%d')
     end = datetime.datetime.strptime(end_time, '%Y/%m/%d')
@@ -98,9 +147,9 @@ def change_data(start_time, end_time):
         now_time = datetime.datetime.strptime(now, '%Y/%m/%d')
         if start < now_time < end:
             new_data.append(i)
-    # with open("files/tp.json", 'w') as out_file:
-    #     json.dump(new_data, out_file, ensure_ascii=False)
     return new_data
 
 
-# print change_data("2017/12/1", "2017/12/16")
+
+
+# transform_data("files/history.json")
