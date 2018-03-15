@@ -97,5 +97,14 @@
         "typedCount": 0,
         "url": "https://www.bilibili.com/video/av11355828/",
         "visitCount": 100
+    },
+    {
+        "id": "7304",
+        "lastVisitTime": "2017/9/21/PM9:52:10",
+        "lastVisitTimeTimestamp": 1506001930717.2551,
+        "title": "Gallery · d3/d3 Wiki",
+        "typedCount": 0,
+        "url": "https://github.com/d3/d3/wiki/Gallery",
+        "visitCount": 49
     }
 ]

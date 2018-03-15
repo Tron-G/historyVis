@@ -1,13 +1,14 @@
 # -*- coding:utf-8 -*-
 import Spider as sp
 import Data_Manager as dm
+import math
 import json
 
 # ↓↓↓↓ 定义top n ↓↓↓↓
 topn = 10
 
 
-# 计算top n主页网站
+# 计算top n主页网站 以及饼状图数据
 def calc_topn(json_data):
     topn_urls = {}
     for i in json_data:
@@ -18,13 +19,21 @@ def calc_topn(json_data):
 
     tops = sorted(topn_urls.iteritems(), key=lambda d: d[1], reverse=True)
 
-    urls = []
+    pie_data = []
     for i in range(0, topn):
-        urls.append(tops[i][0])
+        temp_data = {'url': tops[i][0], 'count': tops[i][1]}
+        pie_data.append(temp_data)
+    return pie_data
 
-    for j in range(0, topn):
-        print tops[j]
-    return urls
+
+# 条形图数据
+def bar_data(json_data):
+    day_data = count_day_time(json_data)
+    week_data = count_week_time(json_data)
+    month_data = count_month_time(json_data)
+    bar_json = {'day': day_data, 'week': week_data, 'month': month_data}
+    # print json.dumps(bar_json, ensure_ascii=False)
+    pass
 
 
 # 按24小时统计访问量
@@ -92,7 +101,7 @@ def count_month_time(json_data):
     return month_time
 
 
-# 按分类统计
+# 按分类统计 雷达图数据
 def count_category(json_data):
     form = dm.load_data("files/category_list.json")
     category_count = {'Search': 0, 'Shopping': 0, 'News': 0, 'Entertainment': 0, 'Education': 0, 'Society': 0}
@@ -101,6 +110,21 @@ def count_category(json_data):
             category_count[form[i['url']]] += i['visitCount']
         else:
             category_count['Education'] += i['visitCount']
-    return category_count
+
+    total_visit = category_count['Education'] + category_count['Search'] \
+                  + category_count['Shopping'] + category_count['Entertainment']\
+                  + category_count['Society'] + category_count['News']
+
+    for i in category_count.keys():
+        category_count[i] = int(math.ceil(float(category_count[i]*1.0/total_visit)*10))
+
+    radar_data = []
+    for j in category_count.keys():
+        temp_data = {'area': j, 'value': category_count[j]}
+        radar_data.append(temp_data)
+
+    return radar_data
 
 
+# print count_category(dm.load_data("files/cut_history.json"))
+# print json.dumps(calc_topn(dm.load_data("files/cut_history.json")), ensure_ascii=False)

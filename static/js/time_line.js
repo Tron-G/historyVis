@@ -118,7 +118,8 @@ function timeLine(data) {
                 post_time.beginTime = select_time[0];
                 post_time.endTime = select_time[1];
 
-                transmitData(post_time)               //数据传输
+                transmitDataPie(post_time);               //数据传输
+                transmitDataRadar(post_time);
           // console.log(getRangeText());
         });
 
