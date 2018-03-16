@@ -4,12 +4,12 @@ import Data_Manager as dm
 import math
 import json
 
-# ↓↓↓↓ 定义top n ↓↓↓↓
-topn = 10
-
 
 # 计算top n主页网站 以及饼状图数据
 def calc_topn(json_data):
+
+    top_n = 10  # 自定义topn
+
     topn_urls = {}
     for i in json_data:
         if i['url'] not in topn_urls:
@@ -19,8 +19,11 @@ def calc_topn(json_data):
 
     tops = sorted(topn_urls.iteritems(), key=lambda d: d[1], reverse=True)
 
+    if len(tops) < top_n:
+        top_n = len(tops)
+
     pie_data = []
-    for i in range(0, topn):
+    for i in range(0, top_n):
         temp_data = {'url': tops[i][0], 'count': tops[i][1]}
         pie_data.append(temp_data)
     return pie_data
@@ -33,7 +36,7 @@ def bar_data(json_data):
     month_data = count_month_time(json_data)
     bar_json = {'day': day_data, 'week': week_data, 'month': month_data}
     # print json.dumps(bar_json, ensure_ascii=False)
-    pass
+    return bar_json
 
 
 # 按24小时统计访问量
@@ -126,5 +129,5 @@ def count_category(json_data):
     return radar_data
 
 
-# print count_category(dm.load_data("files/cut_history.json"))
+# print calc_topn(dm.load_data("files/cut_history.json"))
 # print json.dumps(calc_topn(dm.load_data("files/cut_history.json")), ensure_ascii=False)

@@ -120,6 +120,7 @@ function timeLine(data) {
 
                 transmitDataPie(post_time);               //数据传输
                 transmitDataRadar(post_time);
+                transmitDataBar(post_time);
           // console.log(getRangeText());
         });
 
@@ -152,7 +153,7 @@ function timeLine(data) {
           var handle2 = time_svg.select(".brush").select(".handle--e");
 
           var valA = xYearFirst.invert(handle1.attr("x"));
-          var valB = xYearFirst.invert(handle2.attr("x"));
+          var valB = xYearFirst.invert(Math.ceil(handle2.attr("x"))+3);
 
           // console.log(time_format(valA),time_format(valB));
           return [time_format(valA),time_format(valB)];

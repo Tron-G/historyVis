@@ -35,6 +35,13 @@ def post_radar_data():
     return jsonify(radar_json)
 
 
+@app.route('/bar_data', methods=['POST', 'GET'])
+def post_bar_data():
+    data = request.get_json()
+    now_json = manager.change_data(data)
+    bar_json = calc.bar_data(now_json)
+    # print json.dumps(now_json, ensure_ascii=False)
+    return jsonify(bar_json)
 
 
 if __name__ == '__main__':
