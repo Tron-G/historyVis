@@ -11,6 +11,9 @@
 
 <div id="header">
     <span class="title">历史数据可视分析系统</span>
+    <div id = "Analysis">
+        <button class="button" id="Analysis" onclick="openwin()">Analysis</button>
+    </div>
 </div>
 
   <div id="main">
@@ -25,6 +28,11 @@
 <link rel="stylesheet" href="../static/css/radar_view.css">
 <link rel="stylesheet" href="../static/css/bar_view.css">
 <link rel="stylesheet" href="../static/css/brush_view.css">
+<script>
+  function openwin() {
+        window.open("page2.html", "", "width=1000,height=520")
+    }
+    </script>
 <script type="text/javascript" src="../static/js/init_data.js"></script>
 <script type="text/javascript" src="../static/js/time_line.js"></script>
 <script type="text/javascript" src="../static/js/transmit_data.js"></script>

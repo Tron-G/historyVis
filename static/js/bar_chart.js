@@ -33,6 +33,10 @@ function barChart(data) {
 		 			for(var i in data[ob])
 		 			{
 		 				num=Number(i);
+		 				if(num==0)
+		 				{
+		 					num=24;
+		 				}
 		 				days[num]=data[ob][i];
 		 			}
 		 		}
@@ -110,10 +114,10 @@ function barChart(data) {
 
 
 								            tooltip
-								              .style("left", d3.select(this).attr("x") + "px")
-								              .style("top", d3.select(this).attr("y")+ "px")
+								              .style("left", d3.event.pageX-40+ "px")
+								              .style("top", d3.event.pageY-60+ "px")
 								              .style("display", "inline-block")
-								              .attr("fill", "white")
+								              .style("border-radius", "10px")
 								      				.html(d);
 								            })
 								    		.on("mouseout", function(d){

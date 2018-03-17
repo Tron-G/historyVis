@@ -19,6 +19,7 @@ function initData() {
      $(window).resize(function () {
             window.location.reload();
         });
+
 }
 
 initData();
