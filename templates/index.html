@@ -11,17 +11,21 @@
 
 <div id="header">
     <span class="title">历史数据可视分析系统</span>
-    <div id = "Analysis">
-        <button class="button" id="Analysis" onclick="openwin()">Analysis</button>
+    <div id="Analysis">
+{#        <button class="button" id="Analysis" onclick="openwin()">Analysis</button>#}
+         <form action="{{ url_for("analyse") }}" method="POST">
+             <input type="submit" value="analyse" name="ok"/>
+        </form>
     </div>
 </div>
 
-  <div id="main">
-      <div id="brush_view"></div>
-      <div id="pie_view"></div>
-      <div id="radar_view"></div>
-      <div id="bar_view"></div>
-  </div>
+<div id="main">
+    <div id="brush_view"></div>
+    <div id="pie_view"></div>
+    <div id="radar_view"></div>
+    <div id="bar_view"></div>
+</div>
+
 
 <link rel="stylesheet" href="../static/css/all_view.css">
 <link rel="stylesheet" href="../static/css/pie_view.css">
@@ -29,10 +33,24 @@
 <link rel="stylesheet" href="../static/css/bar_view.css">
 <link rel="stylesheet" href="../static/css/brush_view.css">
 <script>
-  function openwin() {
-        window.open("page2.html", "", "width=1000,height=520")
-    }
-    </script>
+{#    function openwin() {#}
+        {#       window.location.href='feature.html';#}
+        {#        window.open("feature.html", "", "width=1000,height=520")  #}
+{#        console.log(1111);#}
+{#        $.ajax({#}
+{#            type: "get",#}
+{#            dataType: "json",#}
+{#            url: "/feature",#}
+{#            async: true,#}
+{#            contentType: "application/json",#}
+{#            success: function (data) {#}
+{#            },#}
+{#            Error: function () {#}
+{#                console.log("error");#}
+{#            }#}
+{#        })#}
+{#    }#}
+</script>
 <script type="text/javascript" src="../static/js/init_data.js"></script>
 <script type="text/javascript" src="../static/js/time_line.js"></script>
 <script type="text/javascript" src="../static/js/transmit_data.js"></script>

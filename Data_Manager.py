@@ -9,6 +9,16 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
+def save_cache(data):
+    filepath = 'files/cache.json'
+    base_path = path.abspath(path.dirname(__file__))
+    upload_path = path.join(base_path, filepath)
+    with open(upload_path, 'w') as load_f:
+        print data
+        json.dump(data, load_f, ensure_ascii=False)
+    pass
+
+
 # 加载json文件
 # json文件一定是utf8无BOM格式否则报错
 def load_data(file_path):  # 读取数据
