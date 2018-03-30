@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>characteristic analyse</title>
+     <script type="text/javascript" src="../static/lib/d3/d3.js"></script>
+    <script type="text/javascript" src="../static/lib/jquery/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<link rel="stylesheet" href="../static/css/feature_all_view.css">
+<script>
+    var  pp = document.createElement('p');
+    pp.innerHTML = "write f**king code";
+    document.body.appendChild(pp);
+var width = 300;
+var height = 300;
+
+var svg = d3.select("body")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var rectHeight = 25;
+
+svg.append("rect")
+    .attr("x",20)
+    .attr("y",50)
+    .attr("width",60)
+    .attr("height",rectHeight-2)
+    .attr("fill","steelblue");
+
+  $.ajax({
+        type: "get",
+        dataType: "json",
+        url: "/time_range",
+        async: true,
+        contentType: "application/json",
+        success: function (data) {
+
+            console.log(data);
+
+        },
+        Error: function () {
+            console.log("error");
+        }
+    });
+
+</script>
+
+<script type="text/javascript" src="../static/js/words_cloud.js"></script>
+</body>
+</html>
