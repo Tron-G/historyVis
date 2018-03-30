@@ -3,7 +3,7 @@ function pieChart(data) {
     d3.select("#pie_svg").remove();
 
     var history = data;
-    console.log(history);
+    // console.log(history);
 
     var pie_rect = $("#pie_view");
 

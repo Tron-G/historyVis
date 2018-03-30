@@ -6,27 +6,32 @@ import json
 
 
 # 计算top n主页网站 以及饼状图数据
-def calc_topn(json_data):
-
+def calc_topn(json_data, is_pie):
     top_n = 10  # 自定义topn
-
     topn_urls = {}
+    title_form = {}
     for i in json_data:
         if i['url'] not in topn_urls:
             topn_urls[i['url']] = 1
+            title_form[i['url']] = i['title']
         else:
             topn_urls[i['url']] += 1
-
     tops = sorted(topn_urls.iteritems(), key=lambda d: d[1], reverse=True)
-
     if len(tops) < top_n:
         top_n = len(tops)
 
     pie_data = []
+    spider_data = []
     for i in range(0, top_n):
         temp_data = {'url': tops[i][0], 'count': tops[i][1]}
+        sp_data = {'url': tops[i][0], 'title': title_form[tops[i][0]]}
         pie_data.append(temp_data)
-    return pie_data
+        spider_data.append(sp_data)
+
+    if is_pie:
+        return pie_data
+    else:
+        return spider_data
 
 
 # 条形图数据
@@ -42,7 +47,6 @@ def bar_data(json_data):
 # 按24小时统计访问量
 def count_day_time(json_data):
     day_time = dict.fromkeys(range(24), 0)
-
     for i in json_data:
         temp_time = i['lastVisitTime'].split('/')
         clocks = temp_time[3]
@@ -125,9 +129,11 @@ def count_category(json_data):
     for j in category_count.keys():
         temp_data = {'area': j, 'value': category_count[j]}
         radar_data.append(temp_data)
-
     return radar_data
 
 
-# print calc_topn(dm.load_data("files/cut_history.json"))
+def words_cloud_data():
+    return sp.spider(calc_topn(dm.load_data("files/cut_history.json"), False))
+
+# print sp.spider(calc_topn(dm.load_data("files/cut_history.json"), False))
 # print json.dumps(calc_topn(dm.load_data("files/cut_history.json")), ensure_ascii=False)

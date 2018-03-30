@@ -34,7 +34,7 @@ def get_data():
 def post_pie_data():
     data = request.get_json()
     now_json = manager.change_data(data)  # Extracting data by time
-    pie_json = calc.calc_topn(now_json)
+    pie_json = calc.calc_topn(now_json, True)
     manager.save_cache(data)
     # print json.dumps(now_json, ensure_ascii=False)
     return jsonify(pie_json)

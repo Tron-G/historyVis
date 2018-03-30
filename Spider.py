@@ -19,18 +19,18 @@ def grab_new_data(page_url, soup):
         res_data['keywords'] = soup.find(attrs={"name": "keywords"})['content']
     except:
         print "##keywords error!##", res_data['url']
-    try:
-        res_data['title'] = soup.find('title')
-        strss = str(res_data['title'])
-        strss = strss.replace('title', '')
-        strss = strss.strip('<>/')
-        res_data['title'] = strss.decode('utf8')
-    except:
-        print "##title error!##", res_data['url']
+    # try:
+    #     res_data['title'] = soup.find('title')
+    #     strss = str(res_data['title'])
+    #     strss = strss.replace('title', '')
+    #     strss = strss.strip('<>/')
+    #     res_data['title'] = strss.decode('utf8')
+    # except:
+    #     print "##title error!##", res_data['url']
     return res_data
 
 
-def get_text_data(root_url):
+def get_text_data(root_url, title):
     root_url = 'https://' + root_url + '/'
     ip = ['121.31.159.197', '175.30.238.78', '124.202.247.110']
     header = {
@@ -44,11 +44,11 @@ def get_text_data(root_url):
     data = grab_new_data(root_url, soup)
     # print data['description']
     # print data['keywords']
-    key_strs = ''
-    try:
-        key_strs = data['title']
-    except:
-        print "##no title##", data['url']
+    key_strs = title
+    # try:
+    #     key_strs = data['title']
+    # except:
+    #     print "##no title##", data['url']
     try:
         key_strs += ',' + data['keywords']
     except:
@@ -57,17 +57,20 @@ def get_text_data(root_url):
         key_strs += ',' + data['description']
     except:
         pass
-    print key_strs
-    calc_tf(separate(key_strs))
+    # print key_strs
+    return calc_tf(separate(key_strs))
 
 
 def spider(urls):
+    words = []
     for i in urls:
+        print "---------------------------------------------------------------------\n"
         try:
-            get_text_data(i)
+            words += get_text_data(i['url'], i['title'])
         except:
             print i
             print "##spider error##"
+    return words
 
 
 # 加载停用词表
@@ -129,5 +132,6 @@ def calc_tf(strs):
     for num in range(0, 5):  # 提取TF值前5的关键词
         keywords.append(key_dict[num][0])
 
-    for i in keywords:
-        print i
+    # for i in keywords:
+    #     print i
+    return keywords
