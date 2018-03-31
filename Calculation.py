@@ -2,7 +2,6 @@
 import Spider as sp
 import Data_Manager as dm
 import math
-import json
 
 
 # 计算top n主页网站 以及饼状图数据
@@ -12,10 +11,10 @@ def calc_topn(json_data, is_pie):
     title_form = {}
     for i in json_data:
         if i['url'] not in topn_urls:
-            topn_urls[i['url']] = 1
+            topn_urls[i['url']] = i['visitCount']
             title_form[i['url']] = i['title']
         else:
-            topn_urls[i['url']] += 1
+            topn_urls[i['url']] += i['visitCount']
     tops = sorted(topn_urls.iteritems(), key=lambda d: d[1], reverse=True)
     if len(tops) < top_n:
         top_n = len(tops)
@@ -132,8 +131,27 @@ def count_category(json_data):
     return radar_data
 
 
-def words_cloud_data():
-    return sp.spider(calc_topn(dm.load_data("files/cut_history.json"), False))
+def words_cloud_data(json_data):
+    spider_data = calc_topn(json_data, False)
+    count_data = calc_topn(json_data, True)
+    # print spider_data,count_data
+    words = sp.spider(spider_data)
+    # print words
+    visit_count = 0
+    for i in count_data:
+        visit_count += i['count']
 
-# print sp.spider(calc_topn(dm.load_data("files/cut_history.json"), False))
+    words_list = []
+    counter = 0
+    for i in words:
+        weight = float(count_data[counter]['count']*1.0/visit_count)
+        counter += 1
+        for key in i.keys():
+            temp_word = {'name': key, 'value': i[key] * weight}
+            words_list.append(temp_word)
+
+    return words_list
+
+
+# words_cloud_data(dm.load_data("files/cut_history.json"))
 # print json.dumps(calc_topn(dm.load_data("files/cut_history.json")), ensure_ascii=False)

@@ -9,6 +9,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
+# 缓存时间范围
 def save_cache(data):
     filepath = 'files/cache.json'
     base_path = path.abspath(path.dirname(__file__))
@@ -142,12 +143,15 @@ def cut_time(json_data):
 
 
 # 按时间提取数据
-def change_data(select_data):
+def change_data(select_data, is_spider):
     start_time = select_data['beginTime']
     end_time = select_data['endTime']
     # print start_time,end_time
     new_data = []
-    json_datas = load_data("files/cut_history.json")
+    if is_spider:
+        json_datas = load_data("files/full_history.json")
+    else:
+        json_datas = load_data("files/cut_history.json")
     start = datetime.datetime.strptime(start_time, '%Y/%m/%d')
     end = datetime.datetime.strptime(end_time, '%Y/%m/%d')
     now = ''

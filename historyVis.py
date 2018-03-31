@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, session
+from flask import Flask, render_template, jsonify, request
 import Data_Manager as manager
 import Calculation as calc
 
@@ -8,10 +8,15 @@ my_data = []
 app = Flask(__name__)
 
 
-@app.route('/time_range')
+@app.route('/words_data')
 def post_data():
     time_range = manager.load_data('files/cache.json')
-    return jsonify(time_range)
+    now_json = manager.change_data(time_range, True)
+    words = calc.words_cloud_data(now_json)
+    print '======================================================================================='
+    print words
+    # print now_json
+    return jsonify(words)
 
 
 @app.route('/')
@@ -33,7 +38,7 @@ def get_data():
 @app.route('/brush_data', methods=['POST', 'GET'])
 def post_pie_data():
     data = request.get_json()
-    now_json = manager.change_data(data)  # Extracting data by time
+    now_json = manager.change_data(data, False)  # Extracting data by time
     pie_json = calc.calc_topn(now_json, True)
     manager.save_cache(data)
     # print json.dumps(now_json, ensure_ascii=False)
@@ -43,7 +48,7 @@ def post_pie_data():
 @app.route('/radar_data', methods=['POST', 'GET'])
 def post_radar_data():
     data = request.get_json()
-    now_json = manager.change_data(data)
+    now_json = manager.change_data(data, False)
     radar_json = calc.count_category(now_json)
     # print json.dumps(now_json, ensure_ascii=False)
     return jsonify(radar_json)
@@ -52,7 +57,7 @@ def post_radar_data():
 @app.route('/bar_data', methods=['POST', 'GET'])
 def post_bar_data():
     data = request.get_json()
-    now_json = manager.change_data(data)
+    now_json = manager.change_data(data, False)
     bar_json = calc.bar_data(now_json)
     # print json.dumps(now_json, ensure_ascii=False)
     return jsonify(bar_json)

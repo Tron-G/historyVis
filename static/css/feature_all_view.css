@@ -1,0 +1,10 @@
+    .col-md-12{
+        border:1px solid #cee3e9;background:#f1f7f9
+    }
+    p{
+        font-size: 16px;
+    }
+    #wordcloud{
+        width: 778px;
+        height: 350px;
+    }
