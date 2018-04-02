@@ -8,6 +8,14 @@ my_data = []
 app = Flask(__name__)
 
 
+@app.route('/pies_data')
+def post_pies_data():
+    time_range = manager.load_data('files/cache.json')
+    now_json = manager.change_data(time_range, False)
+    pies_data = calc.feature_pie_data(now_json)
+    return jsonify(pies_data)
+
+
 @app.route('/words_data')
 def post_data():
     time_range = manager.load_data('files/cache.json')

@@ -1,6 +1,6 @@
 function wordsCloud(dataset) {
 
-    console.log(dataset);
+    // console.log(dataset);
     var chart = echarts.init(document.getElementById('wordcloud'));
 
     var newdata = new Array();

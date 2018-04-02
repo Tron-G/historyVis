@@ -131,6 +131,7 @@ def count_category(json_data):
     return radar_data
 
 
+# 词云数据
 def words_cloud_data(json_data):
     spider_data = calc_topn(json_data, False)
     count_data = calc_topn(json_data, True)
@@ -151,6 +152,45 @@ def words_cloud_data(json_data):
             words_list.append(temp_word)
 
     return words_list
+
+
+# 饼图比例尺
+def pie_data_scale(min_value, max_value, num):
+    add_num = float((num - min_value)*1.0/(max_value - min_value)*65)
+    trans_num = float(5.0 + add_num)
+    return trans_num
+
+
+# 分段时间饼图数据
+def feature_pie_data(json_data):
+    day_section = []
+    category_names = ['midnight', 'morning', 'noon', 'afternoon', 'evening', 'night']
+    section_visit_count = [0]*6
+    day_time = count_day_time(json_data)
+
+    for i in range(0, 23):
+        if 0 <= i < 7:
+            section_visit_count[0] += day_time[i]
+        elif 7 <= i < 11:
+            section_visit_count[1] += day_time[i]
+        elif 11 <= i < 14:
+            section_visit_count[2] += day_time[i]
+        elif 14 <= i < 17:
+            section_visit_count[3] += day_time[i]
+        elif 17 <= i < 19:
+            section_visit_count[4] += day_time[i]
+        elif 19 <= i <= 23:
+            section_visit_count[5] += day_time[i]
+
+    for j in range(0, 6):
+        temp_section = {}
+        temp_section['section'] = category_names[j]
+        temp_section['visit_count'] = section_visit_count[j]
+        temp_section['scale'] = pie_data_scale(min(section_visit_count), max(section_visit_count), section_visit_count[j])
+        temp_section['sort'] = j
+        day_section.append(temp_section)
+
+    return day_section
 
 
 # words_cloud_data(dm.load_data("files/cut_history.json"))

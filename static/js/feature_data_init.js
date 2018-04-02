@@ -6,8 +6,8 @@ function featureDataInit() {
         async: true,
         contentType: "application/json",
         success: function (data) {
-            wordsCloud(data);
-            console.log(data);
+            // wordsCloud(data);
+             console.log(data);
 
         },
         Error: function () {
@@ -15,9 +15,11 @@ function featureDataInit() {
         }
     });
 
+
+
     $(window).resize(function () {
             window.location.reload();
         });
 }
 
-featureDataInit();
+// featureDataInit();
