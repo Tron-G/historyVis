@@ -1,6 +1,6 @@
 function wordsCloud(dataset) {
 
-    // console.log(dataset);
+    console.log(dataset);
     var chart = echarts.init(document.getElementById('wordcloud'));
 
     var newdata = new Array();
@@ -51,3 +51,10 @@ function wordsCloud(dataset) {
 
     window.onresize = chart.resize;
 }
+
+ // d3.csv("../static/words.csv",function (error,data) {
+ //     if(error) throw error;
+ //     var words = data;
+ //     console.log(words);
+ //     wordsCloud(words);
+ // });

@@ -8,6 +8,14 @@ my_data = []
 app = Flask(__name__)
 
 
+@app.route('/calender_data')
+def post_calender_data():
+    time_range = manager.load_data('files/cache.json')
+    now_json = manager.change_data(time_range, False)
+    calender_data = calc.count_calender_data(now_json)
+    return jsonify(calender_data)
+
+
 @app.route('/pies_data')
 def post_pies_data():
     time_range = manager.load_data('files/cache.json')
@@ -20,10 +28,12 @@ def post_pies_data():
 def post_data():
     time_range = manager.load_data('files/cache.json')
     now_json = manager.change_data(time_range, True)
-    words = calc.words_cloud_data(now_json)
-    print '======================================================================================='
-    print words
+    calc.words_cloud_data(now_json)
+    words = manager.load_data('files/words.json')
+    # print '======================================================================================='
+    # print words
     # print now_json
+    # return jsonify(now_json)
     return jsonify(words)
 
 
@@ -48,7 +58,7 @@ def post_pie_data():
     data = request.get_json()
     now_json = manager.change_data(data, False)  # Extracting data by time
     pie_json = calc.calc_topn(now_json, True)
-    manager.save_cache(data)
+    manager.save_json_data(data, 'files/cache.json')
     # print json.dumps(now_json, ensure_ascii=False)
     return jsonify(pie_json)
 
