@@ -17,9 +17,9 @@ function featureDataInit() {
 
 
 
-    $(window).resize(function () {
-            window.location.reload();
-        });
+    // $(window).resize(function () {
+    //         window.location.reload();
+    //     });
 }
 
 featureDataInit();

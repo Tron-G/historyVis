@@ -122,12 +122,12 @@ def calc_tf(strs):
     # print json.dumps(keyDict, ensure_ascii=False)
 
     keywords = {}
-    if len(key_dict) < 5:
+    if len(key_dict) < 10:
         topn = len(key_dict)
     else:
-        topn = 5
+        topn = 10
 
-    for num in range(0, topn):  # 提取TF值前5的关键词
+    for num in range(0, topn):  # 提取TF值前10的关键词
         keywords[key_dict[num][0]] = key_dict[num][1]
         # keywords.append(key_dict[num][0])
 
