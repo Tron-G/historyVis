@@ -54,9 +54,10 @@ def get_text_data(root_url, title):
 def spider(urls):
     words = []
     for i in urls:
-        # try:
-        words.append(get_text_data(i['url'], i['title']))
-        # except:
+        try:
+            words.append(get_text_data(i['url'], i['title']))
+        except:
+            print 'catch webs error!----------------', i['url']
         #     # print i
         #     # words += calc_tf(separate(i['title']))
         #     print "##spider error##"

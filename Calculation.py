@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-import random
 import Spider as sp
 import Data_Manager as dm
 import math
@@ -234,7 +233,7 @@ def generate_calender_list(year):
 
 # 计算日历图数据
 def count_calender_data(json_data):
-    print json_data
+    # print json_data
     calender_data = {}
     years = []
     date_list = []
@@ -265,7 +264,7 @@ def count_calender_data(json_data):
                     calender_data[i][j][k] = 1.0
                 value_list.append(calender_data[i][j][k])
 
-    print value_list
+    # print value_list
     for i in calender_data.keys():
         for j in calender_data[i].keys():
             for k in calender_data[i][j].keys():

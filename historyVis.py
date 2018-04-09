@@ -83,6 +83,6 @@ def post_bar_data():
 
 if __name__ == '__main__':
     app.debug = True
-    manager.transform_data("files/history.json")  # Raw data processing
+    manager.transform_data("history.json")  # Raw data processing
     my_data = manager.load_data("files/time_cut_history.json")
     app.run(host='0.0.0.0')
